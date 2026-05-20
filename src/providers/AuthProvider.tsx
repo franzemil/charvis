@@ -12,7 +12,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const webClientId = '760964313570-dlntfvri6ggi35h5qaaifl3dd8dt0h2m.apps.googleusercontent.com';
+const webClientId = '760964313570-v1h69dlms33n20dpk00dk086f2ihk47i.apps.googleusercontent.com';
 
 GoogleSignin.configure({ webClientId });
 
