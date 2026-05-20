@@ -1,56 +1,70 @@
-# Welcome to your Expo app 👋
+# Charvis
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Department and house registration app built with Expo + Firebase.
 
-## Get started
+## Prerequisites
 
-1. Install dependencies
+- Node.js 18+
+- Yarn
+- Android Studio (for Android build)
+- Firebase project with:
+  - Authentication → Google Sign-In enabled
+  - Cloud Firestore created (test mode)
 
-   ```bash
-   npm install
-   ```
+## Setup
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Install dependencies
 
 ```bash
-npm run reset-project
+yarn install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Configure Firebase
 
-### Other setup steps
+1. Go to [Firebase Console](https://console.firebase.google.com) → Project Settings → General
+2. **Android**: Download `google-services.json` and place it in the project root
+3. **iOS** (if building for iOS): Download `GoogleService-Info.plist` and place it in the project root
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 3. Add SHA-1 fingerprint (Android)
 
-## Learn more
+Run the signing report to get your debug SHA-1:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npx expo run:android # generates the debug keystore first time
+cd android && ./gradlew signingReport
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Copy the **SHA-1** from the `debug` variant and add it in:
+Firebase Console → Project Settings → General → **Add fingerprint**
 
-## Join the community
+### 4. Generate native projects
 
-Join our community of developers creating universal apps.
+```bash
+npx expo prebuild --clean
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 5. Run the app
+
+```bash
+npx expo run:android
+```
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `yarn start` | Start Expo dev server |
+| `yarn android` | Build and run on Android |
+| `yarn ios` | Build and run on iOS |
+| `yarn format` | Format code with Prettier |
+| `yarn format:check` | Check formatting without writing |
+
+## Tech Stack
+
+- **Framework**: Expo 55 + React Native 0.83
+- **Routing**: Expo Router (file-based)
+- **Auth**: Firebase Auth + Google Sign-In
+- **Database**: Cloud Firestore
+- **State**: TanStack React Query
+- **Styling**: NativeWind (Tailwind CSS)
+- **Formatting**: Prettier
